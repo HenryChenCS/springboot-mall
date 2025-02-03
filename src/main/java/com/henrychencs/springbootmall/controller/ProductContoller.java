@@ -35,4 +35,22 @@ public class ProductContoller {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
+
+
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer productId,
+                                                 @RequestBody @Valid ProductRequest productRequest){
+        //  查詢要更新的資料是否存在
+        Product product = productService.getProductById(productId);
+        if (product == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        //  更新資料
+        productService.updateProduct(productId, productRequest);
+
+        //  將更新資料傳回前端
+        Product updatedProduct = productService.getProductById(productId);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedProduct);
+    }
 }
