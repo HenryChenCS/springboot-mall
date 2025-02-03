@@ -17,4 +17,6 @@ public interface ProductService {
     void updateProduct(Integer id, ProductRequest productRequest);
 
     void deleteProductById(Integer id);
+
+    Integer countProducts(ProductQueryParams productQueryParams);
 }

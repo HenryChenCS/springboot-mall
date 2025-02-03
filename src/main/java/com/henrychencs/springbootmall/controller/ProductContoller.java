@@ -6,6 +6,7 @@ import com.henrychencs.springbootmall.dto.ProductQueryParams;
 import com.henrychencs.springbootmall.dto.ProductRequest;
 import com.henrychencs.springbootmall.model.Product;
 import com.henrychencs.springbootmall.service.ProductService;
+import com.henrychencs.springbootmall.util.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -25,7 +26,7 @@ public class ProductContoller {
 
     //  取得整筆資料
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts(
+    public ResponseEntity<Page<Product>> getAllProducts(
             //  查詢條件 Filtering
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String keyword,
@@ -49,7 +50,15 @@ public class ProductContoller {
 
         List<Product> productList = productService.getProducts(productQueryParams);
 
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        Integer total = productService.countProducts(productQueryParams);
+
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResult(productList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     //  取得單一資料
