@@ -32,7 +32,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
-        //  添加搜尋條件
+        //  搜尋條件
         if (productQueryParams.getCategory() != null) {
             sql += " AND category = :category";
             map.put("category", productQueryParams.getCategory().name());
@@ -43,8 +43,13 @@ public class ProductDaoImpl implements ProductDao {
             map.put("keyword", "%" + productQueryParams.getKeyword() + "%");
         }
 
-        //  添加排序條件，只能用String拼接方法
+        //  排序條件，只能用String拼接方法
         sql += " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
+
+        //  分頁條件
+        sql += " LIMIT :limit OFFSET :offset";
+        map.put("limit", productQueryParams.getLimit());
+        map.put("offset", productQueryParams.getOffset());
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
