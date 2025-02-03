@@ -1,6 +1,7 @@
 package com.henrychencs.springbootmall.controller;
 
 
+import com.henrychencs.springbootmall.constant.ProductCategory;
 import com.henrychencs.springbootmall.dto.ProductRequest;
 import com.henrychencs.springbootmall.model.Product;
 import com.henrychencs.springbootmall.service.ProductService;
@@ -19,8 +20,11 @@ public class ProductContoller {
 
     //  取得整筆資料
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getAllProducts(
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String keyword
+            ) {
+        List<Product> productList = productService.getProducts(category, keyword);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
