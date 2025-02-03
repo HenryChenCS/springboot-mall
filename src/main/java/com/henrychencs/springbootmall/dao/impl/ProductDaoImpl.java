@@ -31,16 +31,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
-        //  搜尋條件
-        if (productQueryParams.getCategory() != null) {
-            sql += " AND category = :category";
-            map.put("category", productQueryParams.getCategory().name());
-        }
-
-        if (productQueryParams.getKeyword() != null) {
-            sql += " AND product_name LIKE :keyword";
-            map.put("keyword", "%" + productQueryParams.getKeyword() + "%");
-        }
+        sql = addFilteringSql(sql, map, productQueryParams);
 
         //  排序條件，只能用String拼接方法
         sql += " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
@@ -60,16 +51,7 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
-        //  搜尋條件
-        if (productQueryParams.getCategory() != null) {
-            sql += " AND category = :category";
-            map.put("category", productQueryParams.getCategory().name());
-        }
-
-        if (productQueryParams.getKeyword() != null) {
-            sql += " AND product_name LIKE :keyword";
-            map.put("keyword", "%" + productQueryParams.getKeyword() + "%");
-        }
+        sql = addFilteringSql(sql, map, productQueryParams);
 
         //  排序條件，只能用String拼接方法
         sql += " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
@@ -154,5 +136,20 @@ public class ProductDaoImpl implements ProductDao {
         Map<String, Object> map = new HashMap<>();
         map.put("productId", productId);
         namedParameterJdbcTemplate.update(sql, map);
+    }
+
+    private String addFilteringSql(String sql, Map<String, Object> map, ProductQueryParams productQueryParams) {
+
+        //  搜尋條件
+        if (productQueryParams.getCategory() != null) {
+            sql += " AND category = :category";
+            map.put("category", productQueryParams.getCategory().name());
+        }
+
+        if (productQueryParams.getKeyword() != null) {
+            sql += " AND product_name LIKE :keyword";
+            map.put("keyword", "%" + productQueryParams.getKeyword() + "%");
+        }
+        return sql;
     }
 }
