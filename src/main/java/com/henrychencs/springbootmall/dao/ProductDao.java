@@ -2,8 +2,11 @@ package com.henrychencs.springbootmall.dao;
 
 import com.henrychencs.springbootmall.dto.ProductRequest;
 import com.henrychencs.springbootmall.model.Product;
+import java.util.List;
 
 public interface ProductDao {
+
+    List<Product> getProducts();
 
     Product getProductById(Integer id);
 
