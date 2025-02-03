@@ -2,6 +2,7 @@ package com.henrychencs.springbootmall.service.impl;
 
 import com.henrychencs.springbootmall.constant.ProductCategory;
 import com.henrychencs.springbootmall.dao.ProductDao;
+import com.henrychencs.springbootmall.dto.ProductQueryParams;
 import com.henrychencs.springbootmall.dto.ProductRequest;
 import com.henrychencs.springbootmall.model.Product;
 import com.henrychencs.springbootmall.service.ProductService;
@@ -16,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String keyword) {
-        return productDao.getProducts(category, keyword);
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
     }
 
     @Override

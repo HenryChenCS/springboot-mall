@@ -2,6 +2,7 @@ package com.henrychencs.springbootmall.controller;
 
 
 import com.henrychencs.springbootmall.constant.ProductCategory;
+import com.henrychencs.springbootmall.dto.ProductQueryParams;
 import com.henrychencs.springbootmall.dto.ProductRequest;
 import com.henrychencs.springbootmall.model.Product;
 import com.henrychencs.springbootmall.service.ProductService;
@@ -24,7 +25,12 @@ public class ProductContoller {
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String keyword
             ) {
-        List<Product> productList = productService.getProducts(category, keyword);
+
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setKeyword(keyword);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
