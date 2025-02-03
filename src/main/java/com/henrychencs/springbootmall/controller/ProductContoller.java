@@ -21,7 +21,7 @@ public class ProductContoller {
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId){
         Product product = productService.getProductById(productId);
 
-        if(product != null){
+        if (product != null){
             return ResponseEntity.status(HttpStatus.OK).body(product);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -35,7 +35,6 @@ public class ProductContoller {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
-
 
     @PutMapping("/products/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer productId,
@@ -52,5 +51,11 @@ public class ProductContoller {
         //  將更新資料傳回前端
         Product updatedProduct = productService.getProductById(productId);
         return ResponseEntity.status(HttpStatus.OK).body(updatedProduct);
+    }
+
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Integer productId){
+        productService.deleteProductById(productId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
