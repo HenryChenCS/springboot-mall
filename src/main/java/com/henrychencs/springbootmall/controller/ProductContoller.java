@@ -55,6 +55,7 @@ public class ProductContoller {
 
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer productId){
+        //  直接刪除 不用判定存不存在
         productService.deleteProductById(productId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
