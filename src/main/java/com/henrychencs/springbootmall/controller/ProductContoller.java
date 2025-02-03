@@ -22,13 +22,20 @@ public class ProductContoller {
     //  取得整筆資料
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts(
+            //  查詢條件
             @RequestParam(required = false) ProductCategory category,
-            @RequestParam(required = false) String keyword
+            @RequestParam(required = false) String keyword,
+
+            //  排序 Sorting
+            @RequestParam(defaultValue = "created_date") String orderBy,
+            @RequestParam(defaultValue = "desc") String sort
             ) {
 
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setKeyword(keyword);
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
 
         List<Product> productList = productService.getProducts(productQueryParams);
 
