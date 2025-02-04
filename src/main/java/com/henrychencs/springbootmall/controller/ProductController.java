@@ -19,7 +19,7 @@ import java.util.List;
 
 @Validated
 @RestController
-public class ProductContoller {
+public class ProductController {
 
     @Autowired
     private ProductService productService;
