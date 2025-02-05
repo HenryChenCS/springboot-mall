@@ -4,8 +4,10 @@ package com.henrychencs.springbootmall.service.impl;
 import com.henrychencs.springbootmall.dao.OrderDao;
 import com.henrychencs.springbootmall.dao.ProductDao;
 import com.henrychencs.springbootmall.dao.UserDao;
+import com.henrychencs.springbootmall.dao.impl.OrderDaoImpl;
 import com.henrychencs.springbootmall.dto.BuyItem;
 import com.henrychencs.springbootmall.dto.CreateOrderRequest;
+import com.henrychencs.springbootmall.dto.OrderQueryParams;
 import com.henrychencs.springbootmall.model.Order;
 import com.henrychencs.springbootmall.model.OrderItem;
 import com.henrychencs.springbootmall.model.Product;
@@ -35,6 +37,23 @@ public class OrderServiceImpl implements OrderService {
     private UserDao userDao;
 
     private final static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        List<Order> orderList= orderDao.getOrders(orderQueryParams);
+
+        for (Order order : orderList) {
+            List<OrderItem> orderItemList = orderDao.getOrderItemsById(order.getOrderId());
+
+            order.setOrderItemList(orderItemList);
+        }
+        return orderList;
+    }
 
     @Transactional
     @Override
